@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:notes/Data.dart';
 import 'package:notes/Screens/AddNoteScreen.dart';
+import 'package:notes/Screens/AllNoteScreen.dart';
+
 import 'package:notes/widgets/CustomAppBar.dart';
 import 'package:notes/widgets/NoteListTile.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,9 +26,13 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   CustomAppBar(
                     AppBarIcon: Icons.list,
-                    FunctionToDo: () {},
+                    FunctionToDo: () {Navigator.of(context).push(MaterialPageRoute(builder:(context)=>const AllNoteScreen()));},
                   ),
                   TableCalendar(
+                    headerStyle: const HeaderStyle(formatButtonVisible: false,titleCentered: true),
+                    weekNumbersVisible: false,
+                    daysOfWeekVisible: false,
+                    onDaySelected: (d,t){},
                     focusedDay: DateTime.now(),
                     firstDay: DateTime(2020),
                     lastDay: DateTime(2025),
@@ -33,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-          Notes.length==0 ?Image.asset("assets/images/NoteLogo-removebg.png"):NotesList()
+         Consumer<NoteApp>(builder:(context, value, child) =>value.TodayFilter().length==0 ?Image.asset("assets/images/NoteLogo-removebg.png"):const NotesList())
           ],
         ),
       ),
@@ -78,17 +85,17 @@ class NotesList extends StatelessWidget {
                     fontSize: 25,
                     fontWeight: FontWeight.w700),
               ),
-              ListView.builder(
+            Consumer<NoteApp>(builder:(context, value, child) =>  ListView.builder(
                   padding: EdgeInsets.zero,
-                  itemCount: Notes.length,
+                  itemCount: value.TodayFilter().length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => NoteListTile(
                         Is_Done: true,
-                        NoteColor: Notes[index].NoteColor,
-                        NoteTime: Notes[index].NoteTime,
-                        NoteTitle: Notes[index].NoteTitle,
-                      ))
+                        NoteColor: value.TodayFilter()[index].NoteColor,
+                        NoteTime: value.TodayFilter()[index].NoteTime,
+                        NoteTitle:value.TodayFilter()[index].NoteTitle,
+                      )))
             ],
           ),
         ),

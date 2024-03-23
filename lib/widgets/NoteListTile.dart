@@ -19,6 +19,7 @@ class NoteListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      tileColor: Colors.white,
       leading: CircleAvatar(
         radius: 15,
         child: Icon(
