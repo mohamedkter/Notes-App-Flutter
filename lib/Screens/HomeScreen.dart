@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:const Color(0xff1D2F3A),
+      backgroundColor: const Color(0xff1D2F3A),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -26,13 +26,17 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   CustomAppBar(
                     AppBarIcon: Icons.list,
-                    FunctionToDo: () {Navigator.of(context).push(MaterialPageRoute(builder:(context)=>const AllNoteScreen()));},
+                    FunctionToDo: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AllNoteScreen()));
+                    },
                   ),
                   TableCalendar(
-                    headerStyle: const HeaderStyle(formatButtonVisible: false,titleCentered: true),
+                    headerStyle: const HeaderStyle(
+                        formatButtonVisible: false, titleCentered: true),
                     weekNumbersVisible: false,
                     daysOfWeekVisible: false,
-                    onDaySelected: (d,t){},
+                    onDaySelected: (d, t) {},
                     focusedDay: DateTime.now(),
                     firstDay: DateTime(2020),
                     lastDay: DateTime(2025),
@@ -40,14 +44,18 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-         Consumer<NoteApp>(builder:(context, value, child) =>value.TodayFilter().length==0 ?Image.asset("assets/images/NoteLogo-removebg.png"):const NotesList())
+            Consumer<NoteApp>(
+                builder: (context, value, child) =>
+                    value.TodayFilter().length == 0
+                        ? Image.asset("assets/images/NoteLogo-removebg.png")
+                        : const NotesList())
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => const AddNoteScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const AddNoteScreen()));
         },
         backgroundColor: const Color(0xff3CAEE4),
         child: const Icon(Icons.add_rounded),
@@ -66,15 +74,14 @@ class NotesList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: Container(
+        height: 500,
         width: double.infinity,
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20))),
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 20.0, left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -85,17 +92,18 @@ class NotesList extends StatelessWidget {
                     fontSize: 25,
                     fontWeight: FontWeight.w700),
               ),
-            Consumer<NoteApp>(builder:(context, value, child) =>  ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: value.TodayFilter().length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => NoteListTile(
-                        Is_Done: true,
-                        NoteColor: value.TodayFilter()[index].NoteColor,
-                        NoteTime: value.TodayFilter()[index].NoteTime,
-                        NoteTitle:value.TodayFilter()[index].NoteTitle,
-                      )))
+              Consumer<NoteApp>(
+                  builder: (context, value, child) => ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: value.TodayFilter().length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => NoteListTile(
+                            Is_Done: true,
+                            NoteColor: value.TodayFilter()[index].NoteColor,
+                            NoteTime: value.TodayFilter()[index].NoteTime,
+                            NoteTitle: value.TodayFilter()[index].NoteTitle,
+                          )))
             ],
           ),
         ),
